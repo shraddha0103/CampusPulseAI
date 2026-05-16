@@ -48,6 +48,24 @@ function Register() {
           onSubmit={handleSubmit}
           className="space-y-4"
         >
+          <div className="mt-6 bg-green-50 p-4 rounded-xl text-sm">
+
+            <p className="font-semibold mb-2">
+              Registration Information
+            </p>
+
+            <p>
+              🎓 Students should register using their college email IDs.
+            </p>
+
+            <p>
+              👨‍💼 Admin account:
+              admin@campuspulse.com
+            </p>
+
+          </div>
+
+
           <input
             type="text"
             name="name"

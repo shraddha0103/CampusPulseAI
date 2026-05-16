@@ -29,13 +29,12 @@ function Login() {
         formData
       );
 
+      localStorage.setItem("token", response.data.token);
+
       localStorage.setItem(
-        "token",
-        response.data.token
+        "role",
+        response.data.user.role
       );
-
-      localStorage.setItem("role", response.data.role);
-
       alert("Login successful");
 
       navigate("/");
@@ -61,6 +60,23 @@ function Login() {
           onSubmit={handleSubmit}
           className="space-y-4"
         >
+
+          <div className="mt-6 bg-blue-50 p-4 rounded-xl text-sm">
+
+            <p className="font-semibold mb-2">
+              Demo Access Information
+            </p>
+
+            <p>
+              👨‍💼 Admin Login:
+              admin@campuspulse.com
+            </p>
+
+            <p>
+              🎓 Students can register/login using their college email IDs.
+            </p>
+
+          </div>
 
           <input
             type="email"

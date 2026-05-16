@@ -220,9 +220,13 @@ function Dashboard() {
           CampusPulse AI Dashboard
         </h1>
 
-        <span className="bg-black text-white px-3 py-1 rounded-full text-sm capitalize">
-          {role}
-        </span>
+        {role && (
+
+          <span className="bg-black text-white px-3 py-1 rounded-full text-sm capitalize">
+            {role}
+          </span> 
+          
+        )}
 
       </div>
 
