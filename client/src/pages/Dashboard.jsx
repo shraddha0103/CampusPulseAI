@@ -6,11 +6,11 @@ import {
   Pie,
   Cell,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 import API from "../services/api";
 
+// Socket connection
 const socket = io(
   import.meta.env.VITE_SOCKET_URL
 );
@@ -92,39 +92,39 @@ function Dashboard() {
   };
 
   // Real-time updates
-useEffect(() => {
+  useEffect(() => {
 
-  const loadIncidents = async () => {
-    await fetchIncidents();
-  };
+    const loadIncidents = async () => {
+      await fetchIncidents();
+    };
 
-  loadIncidents();
+    loadIncidents();
 
-  // Listen for new incidents
-  socket.on("newIncident", (newIncident) => {
+    // Listen for new incidents
+    socket.on("newIncident", (newIncident) => {
 
-    setIncidents((prev) => [
-      newIncident,
-      ...prev,
-    ]);
+      setIncidents((prev) => [
+        newIncident,
+        ...prev,
+      ]);
 
-  });
+    });
 
-  // Listen for incident updates
-  socket.on("incidentUpdated", () => {
+    // Listen for incident updates
+    socket.on("incidentUpdated", () => {
 
-    fetchIncidents();
+      fetchIncidents();
 
-  });
+    });
 
-  return () => {
+    return () => {
 
-    socket.off("newIncident");
-    socket.off("incidentUpdated");
+      socket.off("newIncident");
+      socket.off("incidentUpdated");
 
-  };
+    };
 
-}, []);
+  }, []);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -258,28 +258,24 @@ useEffect(() => {
           Incident Categories
         </h2>
 
-        <div className="w-full h-75">
+        <div className="flex justify-center">
 
-          <ResponsiveContainer>
+          <PieChart width={400} height={300}>
 
-            <PieChart>
+            <Pie
+              data={categoryData}
+              dataKey="value"
+              outerRadius={100}
+              label
+            >
+              {categoryData.map((entry, index) => (
+                <Cell key={index} />
+              ))}
+            </Pie>
 
-              <Pie
-                data={categoryData}
-                dataKey="value"
-                outerRadius={100}
-                label
-              >
-                {categoryData.map((entry, index) => (
-                  <Cell key={index} />
-                ))}
-              </Pie>
+            <Tooltip />
 
-              <Tooltip />
-
-            </PieChart>
-
-          </ResponsiveContainer>
+          </PieChart>
 
         </div>
 
