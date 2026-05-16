@@ -34,6 +34,8 @@ function Login() {
         response.data.token
       );
 
+      localStorage.setItem("role", response.data.role);
+
       alert("Login successful");
 
       navigate("/");

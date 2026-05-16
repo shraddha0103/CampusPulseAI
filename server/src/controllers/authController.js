@@ -23,6 +23,11 @@ export const registerUser = async (req, res) => {
         name,
         email,
         password: hashedPassword,
+
+        role:
+          email === "admin@campuspulse.com"
+            ? "admin"
+            : "student",
       },
     });
 

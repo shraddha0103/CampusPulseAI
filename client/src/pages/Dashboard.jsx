@@ -25,6 +25,17 @@ function Dashboard() {
     location: "",
   });
 
+  // User role
+  const role = localStorage.getItem("role");
+
+  // Chart Colors
+  const COLORS = [
+    "#2563eb",
+    "#16a34a",
+    "#f59e0b",
+    "#ef4444",
+  ];
+
   // Analytics Data
   const totalIncidents = incidents.length;
 
@@ -202,14 +213,23 @@ function Dashboard() {
 
     <div className="p-6 bg-gray-100 min-h-screen">
 
-      <h1 className="text-4xl font-bold text-blue-600 mb-6">
-        CampusPulse AI Dashboard
-      </h1>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
+
+        <h1 className="text-4xl font-bold text-blue-600">
+          CampusPulse AI Dashboard
+        </h1>
+
+        <span className="bg-black text-white px-3 py-1 rounded-full text-sm capitalize">
+          {role}
+        </span>
+
+      </div>
 
       {/* Analytics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
 
-        <div className="bg-white p-5 rounded-xl shadow">
+        <div className="bg-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 border">
           <h3 className="text-gray-500">
             Total Incidents
           </h3>
@@ -219,7 +239,7 @@ function Dashboard() {
           </p>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow">
+        <div className="bg-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 border">
           <h3 className="text-gray-500">
             Pending
           </h3>
@@ -229,7 +249,7 @@ function Dashboard() {
           </p>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow">
+        <div className="bg-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 border">
           <h3 className="text-gray-500">
             Resolved
           </h3>
@@ -239,7 +259,7 @@ function Dashboard() {
           </p>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow">
+        <div className="bg-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 border">
           <h3 className="text-gray-500">
             High Severity
           </h3>
@@ -252,7 +272,7 @@ function Dashboard() {
       </div>
 
       {/* Analytics Chart */}
-      <div className="bg-white p-6 rounded-xl shadow mb-8">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl shadow-lg mb-8 border">
 
         <h2 className="text-2xl font-semibold mb-4">
           Incident Categories
@@ -269,7 +289,10 @@ function Dashboard() {
               label
             >
               {categoryData.map((entry, index) => (
-                <Cell key={index} />
+                <Cell
+                  key={index}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
 
@@ -282,7 +305,7 @@ function Dashboard() {
       </div>
 
       {/* IoB Insights */}
-      <div className="bg-white p-6 rounded-xl shadow mb-8">
+      <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border">
 
         <h2 className="text-2xl font-semibold mb-4">
           AI & IoB Insights
@@ -291,23 +314,19 @@ function Dashboard() {
         <div className="space-y-3">
 
           <p>
-            📌 Most incidents are currently marked as
-            pending.
+            📌 Most incidents are currently marked as pending.
           </p>
 
           <p>
-            ⚡ High severity incidents require immediate
-            attention.
+            ⚡ High severity incidents require immediate attention.
           </p>
 
           <p>
-            📍 Frequent complaints detected in high-traffic
-            campus areas.
+            📍 Frequent complaints detected in high-traffic campus areas.
           </p>
 
           <p>
-            🤖 AI-based classification is actively monitoring
-            incident trends.
+            🤖 AI-based classification is actively monitoring incident trends.
           </p>
 
         </div>
@@ -315,7 +334,7 @@ function Dashboard() {
       </div>
 
       {/* Incident Form */}
-      <div className="bg-white p-6 rounded-xl shadow mb-8">
+      <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border">
 
         <h2 className="text-2xl font-semibold mb-4">
           Report Incident
@@ -376,7 +395,7 @@ function Dashboard() {
 
             <div
               key={incident.id}
-              className="bg-white p-5 rounded-xl shadow"
+              className="bg-white p-5 rounded-2xl shadow-lg border"
             >
 
               <div className="flex justify-between items-center mb-2">
@@ -411,34 +430,38 @@ function Dashboard() {
 
               </div>
 
-              {/* Status Buttons */}
-              <div className="flex gap-2 mt-4">
+              {/* Admin-only Status Buttons */}
+              {role === "admin" && (
 
-                <button
-                  onClick={() =>
-                    updateStatus(
-                      incident.id,
-                      "In Progress"
-                    )
-                  }
-                  className="bg-yellow-500 text-white px-3 py-2 rounded-lg text-sm"
-                >
-                  In Progress
-                </button>
+                <div className="flex gap-2 mt-4">
 
-                <button
-                  onClick={() =>
-                    updateStatus(
-                      incident.id,
-                      "Resolved"
-                    )
-                  }
-                  className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm"
-                >
-                  Resolved
-                </button>
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        incident.id,
+                        "In Progress"
+                      )
+                    }
+                    className="bg-yellow-500 text-white px-3 py-2 rounded-lg text-sm"
+                  >
+                    In Progress
+                  </button>
 
-              </div>
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        incident.id,
+                        "Resolved"
+                      )
+                    }
+                    className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm"
+                  >
+                    Resolved
+                  </button>
+
+                </div>
+
+              )}
 
             </div>
 
